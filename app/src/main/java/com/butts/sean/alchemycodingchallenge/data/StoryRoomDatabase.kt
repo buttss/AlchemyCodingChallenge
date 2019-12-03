@@ -4,9 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.butts.sean.alchemycodingchallenge.Converters
 
-@Database(entities = arrayOf(Story::class), version = 1, exportSchema = false)
+@Database(entities = [Story::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class StoryRoomDatabase: RoomDatabase() {
+
+    abstract fun storyDao(): StoryDao
+
     companion object {
         // Singleton prevents multiple instances of database opening at the
         // same time.

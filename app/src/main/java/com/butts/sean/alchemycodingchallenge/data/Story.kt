@@ -1,6 +1,9 @@
 package com.butts.sean.alchemycodingchallenge.data
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import com.squareup.moshi.Json
 
 /*
 {
@@ -17,13 +20,13 @@ import androidx.room.Entity
  */
 
 @Entity(tableName = "story")
-class Story {
-    val id: Long = -1L
-    val by: String = ""
-    val descendants: Int = 0
-    val score: Long = 0L
-    val time: Long = -1L
-    val title: String = ""
-    val type: String = ""
-    val url: String = ""
-}
+data class Story(@PrimaryKey
+                 val id: Long = -1L,
+                 val kids: List<Long> = listOf(),
+                 val by: String = "",
+                 val descendants: Int = 0,
+                 val score: Long = 0L,
+                 val time: Long = -1L,
+                 val title: String = "",
+                 val type: String = "",
+                 val url: String = "")
