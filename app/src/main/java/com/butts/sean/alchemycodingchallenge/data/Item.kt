@@ -22,6 +22,14 @@ data class Item(@PrimaryKey
     @Ignore
     val uri: Uri? = Uri.parse(url)
 
+    @Ignore
+    var indent = 0
+
+    @Ignore
+    var comments = mutableListOf<Item>()
+
+    fun hasComments() = comments.isNotEmpty()
+
     fun hasKids() = kids.isNotEmpty()
 
     fun hasText() = text.isNotEmpty()

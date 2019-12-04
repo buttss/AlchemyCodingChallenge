@@ -2,6 +2,7 @@ package com.butts.sean.alchemycodingchallenge.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.butts.sean.alchemycodingchallenge.R
@@ -11,6 +12,7 @@ import com.butts.sean.alchemycodingchallenge.views.ItemViewHolder
 class ItemListAdapter: ListAdapter<Item, ItemViewHolder>(StoryDiffCallback()) {
     interface Listener {
         fun onStoryClicked(item: Item, itemViewHolder: ItemViewHolder)
+        fun onViewCommentsClicked(item: Item, viewCommentsButton: ImageButton)
     }
 
     private val storyViewHolderOnClick = object: ItemViewHolder.ItemViewHolderOnClickListener {
@@ -20,6 +22,11 @@ class ItemListAdapter: ListAdapter<Item, ItemViewHolder>(StoryDiffCallback()) {
         ) {
             val story = getItem(adapterPosition)
             listener?.onStoryClicked(story, itemViewHolder)
+        }
+
+        override fun onCommentsButtonClicked(commentsButton: ImageButton, adapterPosition: Int) {
+            val story = getItem(adapterPosition)
+            listener?.onViewCommentsClicked(story, commentsButton)
         }
     }
 

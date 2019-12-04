@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -22,6 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ItemListFragment: Fragment() {
     interface Listener {
         fun onStoryClicked(item: Item, itemViewHolder: ItemViewHolder)
+        fun onViewCommentsClicked(item: Item, viewCommentsButton: ImageButton)
     }
 
     private val viewModel: ItemListViewModel by viewModel()
@@ -39,6 +41,10 @@ class ItemListFragment: Fragment() {
     private val storyListAdapterListener = object: ItemListAdapter.Listener {
         override fun onStoryClicked(item: Item, itemViewHolder: ItemViewHolder) {
             listener.onStoryClicked(item, itemViewHolder)
+        }
+
+        override fun onViewCommentsClicked(item: Item, viewCommentsButton: ImageButton) {
+            listener.onViewCommentsClicked(item, viewCommentsButton)
         }
     }
 

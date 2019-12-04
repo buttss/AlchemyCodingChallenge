@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
@@ -14,7 +15,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 const val DEFAULT_TITLE = "Hacker News Top Stories"
-class MainActivity: AppCompatActivity(), ItemListFragment.Listener, ItemDetailFragment.Listener {
+class MainActivity: AppCompatActivity(),
+                    ItemListFragment.Listener,
+                    ItemDetailFragment.Listener,
+                    ItemCommentsFragment.Listener {
     private val onBackStackChangedListener = FragmentManager.OnBackStackChangedListener {
         if (supportFragmentManager.backStackEntryCount == 0) {
             resetToolbar()
@@ -52,6 +56,19 @@ class MainActivity: AppCompatActivity(), ItemListFragment.Listener, ItemDetailFr
         } else {
             openUrl(item.url)
         }
+    }
+
+    override fun onViewCommentsClicked(item: Item, viewCommentsButton: ImageButton) {
+        openCommentsForItem(item)
+    }
+
+    private fun openCommentsForItem(item: Item) {
+        val id = item.id
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.addToBackStack(null)
+        transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
+        transaction.add(R.id.mainContainer, ItemCommentsFragment.create(id))
+        transaction.commit()
     }
 
     private fun openDetailsForItem(item: Item) {
@@ -99,5 +116,13 @@ class MainActivity: AppCompatActivity(), ItemListFragment.Listener, ItemDetailFr
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowHomeEnabled(false)
         supportActionBar?.title = DEFAULT_TITLE
+    }
+
+    override fun onCommentsFetchError() {
+        popBackstackAndResetToolbar()
+    }
+
+    override fun onOpenedComments(item: Item) {
+        showBackButtonAndSetTitle("Comments: ${item.title}")
     }
 }

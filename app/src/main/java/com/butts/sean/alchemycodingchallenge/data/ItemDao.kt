@@ -15,6 +15,9 @@ interface ItemDao {
     @Query("SELECT * FROM story WHERE id = :id")
     fun getStory(id: Long): Observable<Item>
 
+    @Query("SELECT * FROM story WHERE id = :id")
+    fun getStorySync(id: Long): Item
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveStories(items: List<Item>): Single<List<Long>>
 

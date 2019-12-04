@@ -3,14 +3,20 @@ package com.butts.sean.alchemycodingchallenge.data
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 class ItemServiceImpl(retrofit: Retrofit): ItemService {
-    private val service = retrofit.create(RetrofitStoryService::class.java)
+    private val service = retrofit.create(RetrofitItemService::class.java)
+    override fun getItemSync(id: Long): Response<Item> {
+        return service.getItemInline(id).execute()
+    }
+
     override fun getItem(id: Long): Single<Item> {
-        return service.getStory(id)
+        return service.getItem(id)
                         .onErrorReturn {
                             it.printStackTrace()
                             Item.EMPTY
@@ -25,7 +31,7 @@ class ItemServiceImpl(retrofit: Retrofit): ItemService {
                         .flatMap { pair ->
                             val index = pair.first
                             val id = pair.second
-                            service.getStory(id)
+                            service.getItem(id)
                                 .subscribeOn(Schedulers.io())
                                 .map {
                                     IndexedStory(index, it)
@@ -50,7 +56,10 @@ class ItemServiceImpl(retrofit: Retrofit): ItemService {
     }
 }
 
-private interface RetrofitStoryService {
+private interface RetrofitItemService {
     @GET("v0/item/{id}.json")
-    fun getStory(@Path("id") id: Long): Single<Item>
+    fun getItem(@Path("id") id: Long): Single<Item>
+
+    @GET("v0/item/{id}.json")
+    fun getItemInline(@Path("id") id: Long): Call<Item>
 }

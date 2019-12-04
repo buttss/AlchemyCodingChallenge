@@ -8,35 +8,39 @@ import io.reactivex.schedulers.Schedulers
 class ItemRepositoryImpl(private val remoteItemDataSource: ItemDataSource,
                          private val localItemDataSource: ItemDataSource): ItemRepository {
     override fun getItem(id: Long): Single<Item> {
-        val getStory = listOf(localItemDataSource.getStory(id),
-                                remoteItemDataSource.getStory(id))
+        val getStory = listOf(localItemDataSource.getItem(id),
+                                remoteItemDataSource.getItem(id))
         return Single.concatEager(getStory)
                     .firstOrError()
     }
 
     override fun fetchAllItems(): Single<List<Item>> {
-        return remoteItemDataSource.getAllStories()
+        return remoteItemDataSource.getAllItems()
                                     .flatMap {
-                                        localItemDataSource.saveStories(it)
+                                        localItemDataSource.saveItems(it)
                                     }
                                     .subscribeOn(Schedulers.io())
     }
 
     override fun getAllItems(): Single<List<Item>> {
-        val getAllStories = listOf(localItemDataSource.getAllStories(), fetchAllItems())
+        val getAllStories = listOf(localItemDataSource.getAllItems(), fetchAllItems())
         return Single.concatEager(getAllStories)
                     .singleOrError()
                     .subscribeOn(Schedulers.io())
     }
 
-    private fun getItems(ids: List<Long>): Observable<List<Item>> {
-        return Observable.fromIterable(ids)
-            .concatMap {
-                getItem(it)
-                    .toObservable()
+    override fun populateComments(parentItem: Item) {
+        if (parentItem.hasKids()) {
+            val comments = mutableListOf<Item>()
+            for (id in parentItem.kids) {
+                val child: Item? = remoteItemDataSource.getItemSync(id)
+                child?.let {
+                    comments.add(it)
+                    populateComments(it)
+                }
             }
-            .toList()
-            .toObservable()
-    }
 
+            parentItem.comments = comments
+        }
+    }
 }
