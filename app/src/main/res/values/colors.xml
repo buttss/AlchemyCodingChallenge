@@ -13,4 +13,5 @@
     <color name="faint">#D8E2FA</color>
     <color name="white">#FFF</color>
     <color name="transparent">#00000000</color>
+    <color name="semiTransparentBlack">#80000000</color>
 </resources>
