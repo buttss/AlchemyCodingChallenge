@@ -1,7 +1,9 @@
 package com.butts.sean.alchemycodingchallenge
 
+import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import com.butts.sean.alchemycodingchallenge.data.Item
@@ -33,6 +35,7 @@ class MainActivity: AppCompatActivity(), ItemListFragment.Listener {
     override fun onStoryClicked(item: Item, itemViewHolder: ItemViewHolder) {
         if (item.hasText()) {
             // open in detail fragment
+            openDetailsForItem(item)
         } else {
             openUrl(item.url)
         }

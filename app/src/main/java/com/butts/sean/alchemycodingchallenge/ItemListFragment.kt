@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,8 +60,10 @@ class ItemListFragment: Fragment() {
         storyListAdapter.listener = storyListAdapterListener
         storyRecyclerView.adapter = storyListAdapter
 
+        val context = view.context
         swipeRefreshLayout = view.storySwipeRefreshLayout
-        swipeRefreshLayout.setColorSchemeColors(context!!.getColor(R.color.vibrant), context!!.getColor(R.color.darkVibrant))
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(context, R.color.vibrant),
+                                                ContextCompat.getColor(context, R.color.darkVibrant))
         swipeRefreshLayout.setOnRefreshListener(onRefreshListener)
 
         return view

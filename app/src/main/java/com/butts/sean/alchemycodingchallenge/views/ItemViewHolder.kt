@@ -1,5 +1,6 @@
 package com.butts.sean.alchemycodingchallenge.views
 
+import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.butts.sean.alchemycodingchallenge.data.Item
@@ -15,6 +16,7 @@ class ItemViewHolder(itemView: View, private val onClickListener: ItemViewHolder
     private val titleTextView = itemView.titleTextView
     private val scoreTextView = itemView.scoreTextView
     private val postedByTextView = itemView.postedByTextView
+    private val sourceTextView = itemView.sourceTextView
     private val innerOnClick = View.OnClickListener {
         onClickListener.onStoryViewHolderClicked(this, adapterPosition)
     }
@@ -24,6 +26,16 @@ class ItemViewHolder(itemView: View, private val onClickListener: ItemViewHolder
         titleTextView.text = item.title
         scoreTextView.text = item.score.toString()
         postedByTextView.text = postedByString(item)
+        sourceTextView.text = getSourceString(item)
+    }
+
+    private fun getSourceString(item: Item): String {
+        val hostString = if (item.uri != null && item.uri != Uri.EMPTY) {
+            "${item.uri.host} - "
+        } else {
+            ""
+        }
+        return "$hostString${item.type}"
     }
 
     private fun postedByString(item: Item): String {
