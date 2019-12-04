@@ -7,13 +7,16 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 @Dao
-interface StoryDao {
+interface ItemDao {
     @Query("SELECT * FROM story")
-    fun getAllStories(): Observable<List<Story>>
+    fun getAllStories(): Observable<List<Item>>
 
     @Query("SELECT * FROM story WHERE id = (:id)")
-    fun getStory(id: Long): Observable<Story>
+    fun getStory(id: Long): Observable<Item>
 
     @Insert
-    fun saveStories(stories: List<Story>): Single<List<Long>>
+    fun saveStories(items: List<Item>): Single<List<Long>>
+
+    @Query("DELETE FROM story")
+    fun clearTable()
 }

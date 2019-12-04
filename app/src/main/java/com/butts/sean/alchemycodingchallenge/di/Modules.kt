@@ -2,7 +2,7 @@ package com.butts.sean.alchemycodingchallenge.di
 
 import com.butts.sean.alchemycodingchallenge.Urls
 import com.butts.sean.alchemycodingchallenge.data.*
-import com.butts.sean.alchemycodingchallenge.viewmodel.StoryListViewModel
+import com.butts.sean.alchemycodingchallenge.viewmodel.ItemListViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
@@ -35,31 +35,21 @@ private val loadFeature by lazy {
 }
 
 val viewModelModule: Module = module {
-    viewModel { StoryListViewModel(get()) }
+    viewModel { ItemListViewModel(get()) }
 }
 
 val repositoryModule: Module = module {
-    single { StoryIdsRepository(get(named(Constants.REMOTE_STORY_IDS_SERVICE)),
-                                get(named(Constants.LOCAL_STORY_IDS_SERVICE))) as StoryIdsDataSource }
     single {
-        StoryRoomDatabase.getDatabase(androidApplication()).storyDao()
+        AppDatabase.getDatabase(androidApplication()).storyDao()
     }
 }
 
 val serviceModule: Module = module {
-    single<StoryIdsDataSource>(named(Constants.REMOTE_STORY_IDS_SERVICE)) {
-        RemoteStoryIdsDataSource(get())
-    }
-
-    single<StoryIdsDataSource>(named(Constants.LOCAL_STORY_IDS_SERVICE)) {
-        LocalStoryIdsDataSource(get(named(Constants.STORY_IDS_FILENAME)))
-    }
-
-    single<StoryIdsService> { StoryIdsServiceImpl(Urls.TOP_STORIES, get()) }
-    single<StoryService> { StoryServiceImpl(get()) }
-    single<StoryDataSource>(named(Constants.LOCAL_STORY_SERVICE)) { LocalStoryDataSource(get()) }
-    single<StoryDataSource>(named(Constants.REMOTE_STORY_SERVICE)) { RemoteStoryDataSource(get()) }
-    single<StoryRepository> { StoryRepositoryImpl(get(named(Constants.REMOTE_STORY_SERVICE)),
+    single<ItemIdsService> { ItemIdsServiceImpl(Urls.TOP_STORIES, get()) }
+    single<ItemService> { ItemServiceImpl(get()) }
+    single<ItemDataSource>(named(Constants.LOCAL_STORY_SERVICE)) { LocalItemDataSource(get()) }
+    single<ItemDataSource>(named(Constants.REMOTE_STORY_SERVICE)) { RemoteItemDataSource(get(), get()) }
+    single<ItemRepository> { ItemRepositoryImpl(get(named(Constants.REMOTE_STORY_SERVICE)),
                                                     get(named(Constants.LOCAL_STORY_SERVICE))) }
 }
 

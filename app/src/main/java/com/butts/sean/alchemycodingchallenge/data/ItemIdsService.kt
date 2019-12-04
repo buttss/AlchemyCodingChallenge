@@ -2,6 +2,6 @@ package com.butts.sean.alchemycodingchallenge.data
 
 import io.reactivex.Single
 
-interface StoryIdsService {
+interface ItemIdsService {
     fun getStoryIds(): Single<List<Long>>
 }

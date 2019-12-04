@@ -7,20 +7,20 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.butts.sean.alchemycodingchallenge.Converters
 
-@Database(entities = [Story::class], version = 1, exportSchema = false)
+@Database(entities = [Item::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
-abstract class StoryRoomDatabase: RoomDatabase() {
+abstract class AppDatabase: RoomDatabase() {
 
-    abstract fun storyDao(): StoryDao
+    abstract fun storyDao(): ItemDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
         // same time.
         @Volatile
-        private var INSTANCE: StoryRoomDatabase? = null
+        private var INSTANCE: AppDatabase? = null
         private const val DATABASE_NAME = "story_database"
 
-        fun getDatabase(context: Context): StoryRoomDatabase {
+        fun getDatabase(context: Context): AppDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -28,7 +28,7 @@ abstract class StoryRoomDatabase: RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    StoryRoomDatabase::class.java,
+                    AppDatabase::class.java,
                     DATABASE_NAME
                 ).build()
                 INSTANCE = instance
