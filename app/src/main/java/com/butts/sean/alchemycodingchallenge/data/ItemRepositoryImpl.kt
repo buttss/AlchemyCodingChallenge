@@ -2,8 +2,8 @@ package com.butts.sean.alchemycodingchallenge.data
 
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
+
 
 class ItemRepositoryImpl(private val remoteItemDataSource: ItemDataSource,
                          private val localItemDataSource: ItemDataSource): ItemRepository {
@@ -29,8 +29,14 @@ class ItemRepositoryImpl(private val remoteItemDataSource: ItemDataSource,
                     .subscribeOn(Schedulers.io())
     }
 
-    override fun getCommentsForItem(item: Item): Single<List<Item>> {
-        return Single.just(listOf())
+    private fun getItems(ids: List<Long>): Observable<List<Item>> {
+        return Observable.fromIterable(ids)
+            .concatMap {
+                getItem(it)
+                    .toObservable()
+            }
+            .toList()
+            .toObservable()
     }
 
 }

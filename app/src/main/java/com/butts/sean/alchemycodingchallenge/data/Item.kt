@@ -22,6 +22,8 @@ data class Item(@PrimaryKey
     @Ignore
     val uri: Uri? = Uri.parse(url)
 
+    fun hasKids() = kids.isNotEmpty()
+
     fun hasText() = text.isNotEmpty()
 
     fun isEmpty(): Boolean {
