@@ -8,8 +8,11 @@
         android:layout_margin="10dp"
         android:clickable="true"
         android:focusable="true"
+        app:cardBackgroundColor="@color/white"
+        android:background="@color/white"
         android:foreground="@drawable/custom_ripple">
     <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@color/transparent"
             android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

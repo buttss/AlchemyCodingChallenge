@@ -1,12 +1,10 @@
 package com.butts.sean.alchemycodingchallenge
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,7 +15,7 @@ import com.butts.sean.alchemycodingchallenge.adapters.ItemListAdapter
 import com.butts.sean.alchemycodingchallenge.data.Item
 import com.butts.sean.alchemycodingchallenge.viewmodel.ItemListViewModel
 import com.butts.sean.alchemycodingchallenge.views.ItemViewHolder
-import kotlinx.android.synthetic.main.fragment_story_list.view.*
+import kotlinx.android.synthetic.main.fragment_item_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -54,7 +52,7 @@ class ItemListFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_story_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_item_list, container, false)
         storyRecyclerView = view.storyRecyclerView
         storyRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         storyListAdapter.listener = storyListAdapterListener

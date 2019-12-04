@@ -12,4 +12,5 @@
     <color name="darkVibrant">#0E1A33</color>
     <color name="faint">#D8E2FA</color>
     <color name="white">#FFF</color>
+    <color name="transparent">#00000000</color>
 </resources>

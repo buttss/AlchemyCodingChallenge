@@ -2,6 +2,7 @@ package com.butts.sean.alchemycodingchallenge.di
 
 import com.butts.sean.alchemycodingchallenge.Urls
 import com.butts.sean.alchemycodingchallenge.data.*
+import com.butts.sean.alchemycodingchallenge.viewmodel.ItemDetailViewModel
 import com.butts.sean.alchemycodingchallenge.viewmodel.ItemListViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -36,6 +37,7 @@ private val loadFeature by lazy {
 
 val viewModelModule: Module = module {
     viewModel { ItemListViewModel(get()) }
+    viewModel { ItemDetailViewModel(get()) }
 }
 
 val repositoryModule: Module = module {

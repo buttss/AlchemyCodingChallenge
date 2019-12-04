@@ -26,7 +26,7 @@ class ItemListAdapter: ListAdapter<Item, ItemViewHolder>(StoryDiffCallback()) {
     var listener: Listener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_story, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_item, parent, false)
         return ItemViewHolder(view, storyViewHolderOnClick)
     }
 

@@ -9,12 +9,16 @@ import retrofit2.http.Path
 
 class ItemServiceImpl(retrofit: Retrofit): ItemService {
     private val service = retrofit.create(RetrofitStoryService::class.java)
-    override fun getStory(id: Long): Single<Item> {
+    override fun getItem(id: Long): Single<Item> {
         return service.getStory(id)
+                        .onErrorReturn {
+                            it.printStackTrace()
+                            Item.EMPTY
+                        }
                         .subscribeOn(Schedulers.io())
     }
 
-    override fun getAllStories(ids: List<Long>): Single<List<Item>> {
+    override fun getAllItems(ids: List<Long>): Single<List<Item>> {
         return Observable.fromIterable(ids.mapIndexed { index, id -> Pair(index, id) })
                         // using flatMap + sorting was faster than concatMap
                         // concatMap preserves order, but waits for the previous observable to finish
@@ -42,8 +46,7 @@ class ItemServiceImpl(retrofit: Retrofit): ItemService {
                             it.item
                         }
                         .toList()
-
-
+                        .subscribeOn(Schedulers.io())
     }
 }
 

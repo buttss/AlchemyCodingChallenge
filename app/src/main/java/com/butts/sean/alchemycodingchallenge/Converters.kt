@@ -5,7 +5,7 @@ import androidx.room.TypeConverter
 class Converters {
     @TypeConverter
     fun toKidsList(value: String): List<Long> {
-        val kids = value.split(",").flatMap { s -> listOf(s.toLong()) }
+        val kids = value.split(", ").flatMap { s -> listOf(s.toLong()) }
         return kids
     }
 

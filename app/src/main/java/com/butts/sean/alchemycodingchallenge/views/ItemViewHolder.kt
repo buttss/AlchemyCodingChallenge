@@ -4,7 +4,7 @@ import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.butts.sean.alchemycodingchallenge.data.Item
-import kotlinx.android.synthetic.main.view_holder_story.view.*
+import kotlinx.android.synthetic.main.view_holder_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,7 +35,7 @@ class ItemViewHolder(itemView: View, private val onClickListener: ItemViewHolder
         } else {
             ""
         }
-        return "$hostString${item.type}"
+        return "$hostString${item.type} ${item.hasText()}"
     }
 
     private fun postedByString(item: Item): String {

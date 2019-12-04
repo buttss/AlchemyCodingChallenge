@@ -7,16 +7,15 @@ import com.butts.sean.alchemycodingchallenge.data.ItemRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 
-class ItemListViewModel(private val itemRepository: ItemRepository): ViewModel() {
-    val storyList = MutableLiveData<List<Item>>()
+class ItemDetailViewModel(private val itemRepository: ItemRepository): ViewModel() {
+    val item = MutableLiveData<Item>()
     val error = MutableLiveData<Any>()
 
-    fun refreshData() {
-        itemRepository
-            .fetchAllItems()
+    fun loadItem(id: Long) {
+        itemRepository.getItem(id)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(Consumer {
-                storyList.value = it
+                item.value = it
             }, Consumer {
                 error.value = it
             })
